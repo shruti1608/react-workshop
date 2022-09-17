@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaPencilAlt, FaArrowUp, FaTrash, X } from "react-icons/fa";
+import { FaPencilAlt, FaArrowUp, FaTrash } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
 // HiXMark
 
