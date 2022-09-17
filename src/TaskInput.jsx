@@ -16,14 +16,14 @@ function TaskInput({ onSortClick, onTaskAdded }) {
         onAddBtnClick();
       }}
     >
-      <div class="row mb-3">
+      <div className="row mb-3">
         <div className="col">
-          <div class="form-group">
+          <div className="form-group">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               type="text"
-              class="form-control"
+              className="form-control"
               name="taskName"
               id="taskName"
               placeholder="Enter task name"
@@ -35,7 +35,7 @@ function TaskInput({ onSortClick, onTaskAdded }) {
             onClick={onAddBtnClick}
             disabled={!Boolean(input)}
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
           >
             <FaPlus />
           </button>
@@ -45,10 +45,10 @@ function TaskInput({ onSortClick, onTaskAdded }) {
             onClick={() => onSortClick?.()}
             title="sort ascending"
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
           >
             <FaSortAlphaUp />
-            {/* <i class="fa-solid fa-arrow-up-z-a"></i> */}
+            {/* <i className="fa-solid fa-arrow-up-z-a"></i> */}
           </button>
         </div>
       </div>

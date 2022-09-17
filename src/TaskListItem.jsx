@@ -14,8 +14,8 @@ function TaskListItem({
   const [taskInputValue, setTaskInputValue] = useState(task.name);
 
   return (
-    <li class="list-group-item">
-      <div class="row">
+    <li className="list-group-item">
+      <div className="row">
         <div className="col">
           {editMode ? (
             <input
@@ -23,7 +23,7 @@ function TaskListItem({
               value={taskInputValue}
               onChange={(e) => setTaskInputValue(e.target.value)}
               type="text"
-              class="form-control"
+              className="form-control"
               name="taskName"
               id="taskName"
               placeholder="Enter task name"
@@ -36,7 +36,7 @@ function TaskListItem({
           <div className="col col-auto">
             <button
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               onClick={() => {
                 onEdit?.(taskInputValue);
                 setEditMode(false);
@@ -49,7 +49,7 @@ function TaskListItem({
         <div className="col col-auto">
           <button
             type="button"
-            class="btn btn-light"
+            className="btn btn-light"
             onClick={() => {
               setEditMode(!editMode);
               setTaskInputValue(task.name);
@@ -63,7 +63,7 @@ function TaskListItem({
             title="Move Up"
             type="button"
             disabled={isFirst}
-            class="btn btn-secondary"
+            className="btn btn-secondary"
             onClick={() => onMoveUpClicked()}
           >
             <FaArrowUp />
@@ -72,7 +72,7 @@ function TaskListItem({
         <div className="col col-auto">
           <button
             type="button"
-            class="btn btn-danger"
+            className="btn btn-danger"
             onClick={() => onDelete?.()}
           >
             <FaTrash />

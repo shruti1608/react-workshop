@@ -5,6 +5,7 @@ import TasksList from "./TasksList";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  console.log(tasks);
   const onTaskAdded = (taskText) => {
     setTasks(tasks.concat([{ name: taskText }]));
     // const newTasks = [{ name: taskText }, ...tasks];
