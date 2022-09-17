@@ -18,11 +18,27 @@ function App() {
     newTasks[index] = newVal;
     setTasks(newTasks);
   };
+  const onTaskMoveUp = (_task, index) => {
+    if (index === 0) {
+      return;
+    }
+
+    const newTask = [...tasks];
+    const upperItem = newTask[index - 1];
+    newTask[index - 1] = newTask[index];
+    newTask[index] = upperItem;
+    setTasks(newTask);
+  };
 
   return (
     <div className="container mt-3">
       <TaskInput onTaskAdded={onTaskAdded} />
-      <TasksList tasks={tasks} onEdit={onTaskEdit} onDelete={onTaskDelete} />
+      <TasksList
+        onItemMoveUp={onTaskMoveUp}
+        tasks={tasks}
+        onEdit={onTaskEdit}
+        onDelete={onTaskDelete}
+      />
     </div>
   );
 }

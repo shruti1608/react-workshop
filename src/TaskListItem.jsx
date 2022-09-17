@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-function TaskListItem({ task, onDelete, onEdit }) {
+function TaskListItem({
+  task,
+  onDelete,
+  onMoveUpClicked,
+  isFirst = false,
+  onEdit,
+}) {
   const [editMode, setEditMode] = useState(false);
   const [taskInputValue, setTaskInputValue] = useState(task);
 
@@ -46,6 +52,17 @@ function TaskListItem({ task, onDelete, onEdit }) {
             }}
           >
             Edit
+          </button>
+        </div>
+        <div className="col col-auto">
+          <button
+            title="Move Up"
+            type="button"
+            disabled={isFirst}
+            class="btn btn-light"
+            onClick={() => onMoveUpClicked()}
+          >
+            &uarr;
           </button>
         </div>
         <div className="col col-auto">
