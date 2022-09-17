@@ -29,10 +29,15 @@ function App() {
     newTask[index] = upperItem;
     setTasks(newTask);
   };
+  const onSort = () => {
+    const newTasks = [...tasks];
+    newTasks.sort((a, b) => a.localeCompare(b));
+    setTasks(newTasks)
+  };
 
   return (
     <div className="container mt-3">
-      <TaskInput onTaskAdded={onTaskAdded} />
+      <TaskInput onSortClick={onSort} onTaskAdded={onTaskAdded} />
       <TasksList
         onItemMoveUp={onTaskMoveUp}
         tasks={tasks}
