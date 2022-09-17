@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaPencilAlt, FaArrowUp, FaTrash } from "react-icons/fa";
 
 function TaskListItem({
   task,
@@ -52,7 +53,7 @@ function TaskListItem({
               setTaskInputValue(task);
             }}
           >
-            <i className="fa fa-pencil"></i>
+            <FaPencilAlt />
           </button>
         </div>
         <div className="col col-auto">
@@ -63,7 +64,7 @@ function TaskListItem({
             class="btn btn-secondary"
             onClick={() => onMoveUpClicked()}
           >
-            <i className="fa fa-arrow-up"></i>
+            <FaArrowUp />
           </button>
         </div>
         <div className="col col-auto">
@@ -72,7 +73,7 @@ function TaskListItem({
             class="btn btn-danger"
             onClick={() => onDelete?.()}
           >
-            <i className="fa fa-trash"></i>
+            <FaTrash />
           </button>
         </div>
       </div>

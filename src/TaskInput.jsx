@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaSortAlphaUp } from "react-icons/fa";
+import { FaSortAlphaUp, FaPlus } from "react-icons/fa";
 
 function TaskInput({ onSortClick, onTaskAdded }) {
   const [input, setInput] = useState("");
@@ -37,7 +37,7 @@ function TaskInput({ onSortClick, onTaskAdded }) {
             type="button"
             class="btn btn-primary"
           >
-            +
+            <FaPlus />
           </button>
         </div>
         <div className="col col-auto">
