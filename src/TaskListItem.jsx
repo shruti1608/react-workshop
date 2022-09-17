@@ -16,6 +16,7 @@ function TaskListItem({
         <div className="col">
           {editMode ? (
             <input
+              autoFocus
               value={taskInputValue}
               onChange={(e) => setTaskInputValue(e.target.value)}
               type="text"
@@ -51,7 +52,7 @@ function TaskListItem({
               setTaskInputValue(task);
             }}
           >
-            Edit
+            <i className="fa fa-pencil"></i>
           </button>
         </div>
         <div className="col col-auto">
@@ -59,10 +60,10 @@ function TaskListItem({
             title="Move Up"
             type="button"
             disabled={isFirst}
-            class="btn btn-light"
+            class="btn btn-secondary"
             onClick={() => onMoveUpClicked()}
           >
-            &uarr;
+            <i className="fa fa-arrow-up"></i>
           </button>
         </div>
         <div className="col col-auto">
@@ -71,7 +72,7 @@ function TaskListItem({
             class="btn btn-danger"
             onClick={() => onDelete?.()}
           >
-            -
+            <i className="fa fa-trash"></i>
           </button>
         </div>
       </div>
