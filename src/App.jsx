@@ -6,7 +6,9 @@ import TasksList from "./TasksList";
 function App() {
   const [tasks, setTasks] = useState([]);
   const onTaskAdded = (taskText) => {
-    setTasks(tasks.concat([taskText]));
+    setTasks(tasks.concat([{ name: taskText }]));
+    // const newTasks = [{ name: taskText }, ...tasks];
+    // setTasks(newTasks);
   };
   const onTaskDelete = (index, task) => {
     const newTasks = [...tasks];
@@ -15,7 +17,7 @@ function App() {
   };
   const onTaskEdit = (newVal, index) => {
     const newTasks = [...tasks];
-    newTasks[index] = newVal;
+    newTasks[index] = { name: newVal };
     setTasks(newTasks);
   };
   const onTaskMoveUp = (_task, index) => {
@@ -31,8 +33,8 @@ function App() {
   };
   const onSort = () => {
     const newTasks = [...tasks];
-    newTasks.sort((a, b) => a.localeCompare(b));
-    setTasks(newTasks)
+    newTasks.sort((a, b) => a.name.localeCompare(b.name));
+    setTasks(newTasks);
   };
 
   return (

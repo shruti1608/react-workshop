@@ -5,7 +5,7 @@ function TasksList({ onDelete, tasks = [], onEdit, onItemMoveUp }) {
     <ul class="list-group">
       {tasks.map((task, i) => (
         <TaskListItem
-          key={i}
+          // key={i}
           task={task}
           isFirst={i === 0}
           onEdit={(newVal) => onEdit?.(newVal, i)}

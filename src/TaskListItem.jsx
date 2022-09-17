@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { FaPencilAlt, FaArrowUp, FaTrash } from "react-icons/fa";
+import { FaPencilAlt, FaArrowUp, FaTrash, X } from "react-icons/fa";
+import { HiX } from "react-icons/hi";
+// HiXMark
 
 function TaskListItem({
   task,
@@ -9,7 +11,7 @@ function TaskListItem({
   onEdit,
 }) {
   const [editMode, setEditMode] = useState(false);
-  const [taskInputValue, setTaskInputValue] = useState(task);
+  const [taskInputValue, setTaskInputValue] = useState(task.name);
 
   return (
     <li class="list-group-item">
@@ -27,7 +29,7 @@ function TaskListItem({
               placeholder="Enter task name"
             />
           ) : (
-            task
+            task.name
           )}
         </div>
         {editMode && (
@@ -50,10 +52,10 @@ function TaskListItem({
             class="btn btn-light"
             onClick={() => {
               setEditMode(!editMode);
-              setTaskInputValue(task);
+              setTaskInputValue(task.name);
             }}
           >
-            <FaPencilAlt />
+            {editMode ? <HiX /> : <FaPencilAlt />}
           </button>
         </div>
         <div className="col col-auto">
