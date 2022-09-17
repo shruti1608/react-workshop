@@ -20,6 +20,7 @@ function TaskInput({ onSortClick, onTaskAdded }) {
         <div className="col">
           <div className="form-group">
             <input
+              autoComplete="off"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               type="text"
