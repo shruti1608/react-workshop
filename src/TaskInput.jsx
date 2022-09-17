@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaSortAlphaUp, FaPlus } from "react-icons/fa";
+import { FaSortAlphaDown, FaPlus } from "react-icons/fa";
 
 function TaskInput({ onSortClick, onTaskAdded }) {
   const [input, setInput] = useState("");
@@ -48,8 +48,7 @@ function TaskInput({ onSortClick, onTaskAdded }) {
             type="button"
             className="btn btn-primary"
           >
-            <FaSortAlphaUp />
-            {/* <i className="fa-solid fa-arrow-up-z-a"></i> */}
+            <FaSortAlphaDown />
           </button>
         </div>
       </div>

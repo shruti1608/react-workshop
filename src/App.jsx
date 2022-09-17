@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuid } from "uuid";
 import "./App.css";
 import TaskInput from "./TaskInput";
 import TasksList from "./TasksList";
@@ -7,9 +8,9 @@ function App() {
   const [tasks, setTasks] = useState([]);
   console.log(tasks);
   const onTaskAdded = (taskText) => {
-    setTasks(tasks.concat([{ name: taskText }]));
-    // const newTasks = [{ name: taskText }, ...tasks];
-    // setTasks(newTasks);
+    // setTasks(tasks.concat([{ name: taskText }]));
+    const newTasks = [{ name: taskText, id: uuid() }, ...tasks];
+    setTasks(newTasks);
   };
   const onTaskDelete = (index, task) => {
     const newTasks = [...tasks];
@@ -18,7 +19,10 @@ function App() {
   };
   const onTaskEdit = (newVal, index) => {
     const newTasks = [...tasks];
-    newTasks[index] = { name: newVal };
+    newTasks[index] = {
+      id: newTasks[index].id,
+      name: newVal,
+    };
     setTasks(newTasks);
   };
   const onTaskMoveUp = (_task, index) => {
