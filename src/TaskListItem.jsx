@@ -16,7 +16,7 @@ function TaskListItem({
   return (
     <li className="list-group-item">
       <div className="row">
-        <div className="col">
+        <div className="col d-flex align-items-center">
           {editMode ? (
             <input
               autoFocus
