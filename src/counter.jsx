@@ -1,7 +1,7 @@
-import { useState } from "react";
+//import { useState } from "react";
 
-export default function Counter(){
-    const [count,setcount] = useState(0)
+export default function Counter({count,setcount}){
+   // const [count,setcount] = useState(0)
     function decrementcount(){
         if(count  > 0){
          setcount(count - 1)
