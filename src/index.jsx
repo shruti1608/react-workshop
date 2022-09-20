@@ -5,7 +5,7 @@ import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App user="Enter Username" password="Enter Password"/>
+    <App />
   </React.StrictMode>,
  // React.createElement('h1',null,'hello!'),
   
