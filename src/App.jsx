@@ -10,7 +10,7 @@
  const [user] = useState('shruti')
    return(
   <Countercontext.Provider value={[count,setcount]}> 
-   <Usercontext.Provider value={user}>
+   <Usercontext.Provider value={[user]}>
     <Header/>
     <Counter/>
 
