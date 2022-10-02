@@ -1,8 +1,13 @@
 import { useState } from "react";
+import Todolist from './Todolist'
+import { AiTwotoneEdit,AiFillDelete } from "react-icons/ai";
+import { BiSave } from "react-icons/bi";
 
 export default function Todoapp(){
 const [state,setstate] =useState('')
 const [list,setlist] = useState([])
+const [editstate,seteditstate] = useState(false)
+const [updateinput,setupdateinput] = useState(state)
 
 function onclickhandler(){
     
@@ -12,6 +17,18 @@ function onclickhandler(){
     } 
     
 }
+function handledelete(id){
+
+// console.log(id,"delete")
+ setlist(list.filter((item,idx) => idx !== id ))
+}
+function updateitm(id){
+   
+    seteditstate(true)
+    setlist([...list])
+   
+}
+
 
 const rootStyle={
     justifyContent:"center",
@@ -69,9 +86,24 @@ const listtextStyle={
                     onClick={onclickhandler}>Add</button>
        
        
-            {list.map(ele => <div style={listStyle}>
-                             <span style={listtextStyle}>{ele}</span>
-                             </div> )}
+            {list.map((itm,id) => <div key={id} style={listStyle}>
+                                 <div style={{display:"flex",justifyContent:"space-between"}}> 
+                                 {editstate ? 
+                                 <div style={{display:"flex",justifyContent:"space-between"}}>
+                                 <input value={updateinput} 
+                                        style={{width:450}}
+                                        onChange={(e) => {setupdateinput(e.target.value);console.log(e.target.value,id,"this")}}></input> 
+                                 <BiSave style={{marginLeft:10}} onClick={() => {console.log(id,"save id");seteditstate(false)}}></BiSave>  
+                                 </div>     
+                                 :
+                                  <span style={listtextStyle}>{itm}</span>
+                                  }
+                                  <div>
+                                  <AiTwotoneEdit value={editstate} style={{marginRight:"10"}} onClick={() => updateitm(id)}></AiTwotoneEdit>
+                                  <AiFillDelete  onClick={() => handledelete(id)}></AiFillDelete>
+                                  </div>
+                                  </div> 
+                                  </div>)}
             
          </div>
         
