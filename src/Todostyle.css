@@ -1,0 +1,43 @@
+ .rootStyle {
+    justify-content : "center";
+    flex-direction : "column";
+    display:"flex";
+}
+.textStyle {
+    align-self:"center";
+    color:"#ED7014";
+}
+.innerrootStyle {
+    margin-top:20;
+    align-self:"center";
+    flex-direction:"column";
+}
+.inputStyle {
+    box-shadow:"2px 2px orange";
+    padding:10;
+    width:500;
+    border-radius:10;
+}
+.buttonStyle {
+    margin-left:10;
+    background-color:"orange";
+    border-radius:5;
+    height:30;
+    width:50;
+    box-shadow:"2px 2px 2px lightgray";
+    border:"1px solid orange";
+}
+.listStyle {
+    padding:10;
+    background-color:"orange";
+    box-shadow:"2px 2px 2px lightgray";
+    margin-top:10;
+    border-radius:10;
+}
+.listtextStyle {
+    padding-left:10;
+}
+.innerlistStyle {
+    display:"flex";
+    justify-content:"space-between";
+}
