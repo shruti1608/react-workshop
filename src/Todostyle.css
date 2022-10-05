@@ -1,43 +1,43 @@
  .rootStyle {
-    justify-content : "center";
-    flex-direction : "column";
-    display:"flex";
+    justify-content : center;
+    flex-direction : column;
+    display:flex;
 }
 .textStyle {
-    align-self:"center";
-    color:"#ED7014";
+    align-self:center;
+    color:orange;
 }
 .innerrootStyle {
-    margin-top:20;
-    align-self:"center";
-    flex-direction:"column";
+    margin-top:20px;
+    align-self:center;
+    flex-direction:column;
 }
 .inputStyle {
-    box-shadow:"2px 2px orange";
-    padding:10;
-    width:500;
-    border-radius:10;
+    box-shadow:2px 2px orange;
+    padding:10px;
+    width:500px;
+    border-radius:10px;
 }
 .buttonStyle {
-    margin-left:10;
-    background-color:"orange";
-    border-radius:5;
-    height:30;
-    width:50;
-    box-shadow:"2px 2px 2px lightgray";
-    border:"1px solid orange";
+    margin-left:10px;
+    background-color:orange;
+    border-radius:5px;
+    height:30px;
+    width:50px;
+    box-shadow:2px 2px 2px lightgray;
+    border:1px solid orange;
 }
 .listStyle {
-    padding:10;
-    background-color:"orange";
-    box-shadow:"2px 2px 2px lightgray";
-    margin-top:10;
-    border-radius:10;
+    padding:10px;
+    background-color:orange;
+    box-shadow:2px 2px 2px lightgray;
+    margin-top:10px;
+    border-radius:10px;
 }
 .listtextStyle {
-    padding-left:10;
+    padding-left:10px;
 }
 .innerlistStyle {
-    display:"flex";
-    justify-content:"space-between";
+    display:flex;
+    justify-content:space-between;
 }
