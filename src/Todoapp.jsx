@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiTwotoneEdit, AiFillDelete } from "react-icons/ai";
 import { BiSave } from "react-icons/bi";
 
@@ -63,6 +63,14 @@ export default function Todoapp() {
    ) 
   }
 
+
+  function sortlistitem() {
+   // console.log("before sort",list)
+    const sort = list.sort()
+    setlist([...sort])
+  //  console.log("after sorting",list)
+  }
+
   return (
     <div className="rootStyle">
       <h1 className="textStyle">MY Todos</h1>
@@ -76,7 +84,9 @@ export default function Todoapp() {
         <button className="buttonStyle" value={list} onClick={onclickhandler}>
           Add
         </button>
-
+        <button className="buttonStyle" value={list} onClick={sortlistitem}>
+          sort
+        </button>
         {list.map((itm, id) => (
           <div key={id} className="listStyle">
             <div className="innerlistStyle">
