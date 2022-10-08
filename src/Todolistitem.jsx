@@ -14,11 +14,20 @@ export default function Todolistitem({isedit,setisedit}){
     
   }
   
-  function oncomplelehandler(id) {
+  function oncomplelehandler(id,itm) {
     //save
     //setisedit();
     const newisEdit = isedit.filter((item, o) => item !== id);
       setisedit(newisEdit);
+
+      const title = itm
+      fetch(`http://localhost:3000/tasks/${id}`,{
+        method:"PUT",
+        body:JSON.stringify({ title}),
+        headers: {'Content-type': 'application/json; charset=UTF-8',}
+})
+.then(res => res.json())
+.then(body => console.log(body))
   }
 
   function onupdatehandler(e,itm, id) {
@@ -34,11 +43,16 @@ export default function Todolistitem({isedit,setisedit}){
       return item;
     })
    ) 
+
+
   }
 
   function handledelete(id) {
     // console.log(id,"delete")
     setlist(list.filter((item, idx) => idx !== id));
+    fetch(`http://localhost:3000/tasks/${id}`, {
+     method: 'DELETE',
+    });
   }
 
     return(
@@ -46,7 +60,7 @@ export default function Todolistitem({isedit,setisedit}){
       {list.map((itm, id) => (
         <div key={id} className="listStyle">
           <div className="innerlistStyle">
-            { isedit.includes(id)?(
+            { (isedit.includes(id) )?(
               <div className="innerlistStyle">
                 <input
                   defaultValue={itm}
@@ -56,7 +70,7 @@ export default function Todolistitem({isedit,setisedit}){
                 ></input>
                 <BiSave
                   style={{ marginLeft: 10 }}
-                  onClick={() => oncomplelehandler(id)}
+                  onClick={() => oncomplelehandler(id,itm)}
                 ></BiSave>
               </div>
             ) : (
