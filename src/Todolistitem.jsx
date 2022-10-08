@@ -9,14 +9,16 @@ export default function Todolistitem({isedit,setisedit}){
 
   function updateitem(itm, id, isedit) {
    // console.log("inside updateitm", itm, id, isedit);
-     setisedit(id)
+     setisedit([...isedit,id])
     // console.log("inside updateitm after", itm, id, isedit);
     
   }
   
   function oncomplelehandler(id) {
     //save
-    setisedit();
+    //setisedit();
+    const newisEdit = isedit.filter((item, o) => item !== id);
+      setisedit(newisEdit);
   }
 
   function onupdatehandler(e,itm, id) {
@@ -44,7 +46,7 @@ export default function Todolistitem({isedit,setisedit}){
       {list.map((itm, id) => (
         <div key={id} className="listStyle">
           <div className="innerlistStyle">
-            {isedit === id ? (
+            { isedit.includes(id)?(
               <div className="innerlistStyle">
                 <input
                   defaultValue={itm}

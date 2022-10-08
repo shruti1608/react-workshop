@@ -8,7 +8,7 @@ import "./Todostyle.css";
 export default function Todoapp() {
   const [state, setstate] = useState("");
   const [list, setlist] = useState([]);
-  const [isedit, setisedit] = useState();
+  const [isedit, setisedit] = useState([]);
  
 
   return (
