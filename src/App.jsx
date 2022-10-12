@@ -1,56 +1,65 @@
 import { useState } from "react";
-import { v4 as uuid } from "uuid";
 import "./App.css";
+import TaskEdit from "./TaskEdit";
 import TaskInput from "./TaskInput";
+import Todo from "./Todo";
 import TasksList from "./TasksList";
+import Toggle from "./Toggle";
+import TodoListItem from "./TodoListItem";
+import { addNewTask, deleteTask, editTask, moveUp, sortTasks } from "./helpers";
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  console.log(tasks);
   const onTaskAdded = (taskText) => {
-    // setTasks(tasks.concat([{ name: taskText }]));
-    const newTasks = [{ name: taskText, id: uuid() }, ...tasks];
-    setTasks(newTasks);
+    setTasks(addNewTask(tasks, taskText));
   };
-  const onTaskDelete = (index, task) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
+  const onTaskDelete = (index) => {
+    setTasks(deleteTask(index, tasks));
   };
   const onTaskEdit = (newVal, index) => {
-    const newTasks = [...tasks];
-    newTasks[index] = {
-      id: newTasks[index].id,
-      name: newVal,
-    };
-    setTasks(newTasks);
+    setTasks(editTask(tasks, index, newVal));
   };
-  const onTaskMoveUp = (_task, index) => {
+  const onTaskMoveUp = (index) => {
     if (index === 0) {
       return;
     }
 
-    const newTask = [...tasks];
-    const upperItem = newTask[index - 1];
-    newTask[index - 1] = newTask[index];
-    newTask[index] = upperItem;
-    setTasks(newTask);
+    setTasks(moveUp(tasks, index));
   };
   const onSort = () => {
-    const newTasks = [...tasks];
-    newTasks.sort((a, b) => a.name.localeCompare(b.name));
-    setTasks(newTasks);
+    setTasks(sortTasks(tasks));
   };
 
   return (
     <div className="container mt-3">
       <TaskInput onSortClick={onSort} onTaskAdded={onTaskAdded} />
-      <TasksList
-        onItemMoveUp={onTaskMoveUp}
-        tasks={tasks}
-        onEdit={onTaskEdit}
-        onDelete={onTaskDelete}
-      />
+      <TasksList>
+        {tasks.map((task, index) => (
+          <TodoListItem key={task.id}>
+            <Toggle
+              render={(isOn, toggle) =>
+                isOn ? (
+                  <TaskEdit
+                    task={task}
+                    toggle={toggle}
+                    index={index}
+                    onEdit={onTaskEdit}
+                  />
+                ) : (
+                  <Todo
+                    task={task}
+                    index={index}
+                    onDelete={onTaskDelete}
+                    isFirst={index === 0}
+                    onMoveUpClicked={onTaskMoveUp}
+                    onEditClick={toggle}
+                  />
+                )
+              }
+            />
+          </TodoListItem>
+        ))}
+      </TasksList>
     </div>
   );
 }
