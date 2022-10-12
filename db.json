@@ -1,0 +1,15 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "task": "First task 3 ss",
+      "createdAt": "2022-10-12T06:42:04.711Z",
+      "priority": 0
+    },
+    {
+      "task": "sx",
+      "createdAt": "2022-10-12T10:52:01.266Z",
+      "id": 2
+    }
+  ]
+}

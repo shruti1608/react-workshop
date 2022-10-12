@@ -1,18 +1,38 @@
-import { FaPencilAlt, FaArrowUp, FaTrash } from "react-icons/fa";
+import { useState } from "react";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import Button from "./Button";
+import { deleteTodo } from "./todoAxios";
 
 function Todo({
   task,
   onDelete,
-  onMoveUpClicked,
-  isFirst = false,
   onEditClick,
   index,
 }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const onDeleteClick = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await deleteTodo(task.id);
+      onDelete?.(index);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  if (error) {
+    throw error;
+  }
+
   return (
     <>
-      <div className="col d-flex align-items-center">{task.name}</div>
+      <div className="col d-flex align-items-center">{task.task}</div>
       <div className="col col-auto">
         <button
+          disabled={loading}
           type="button"
           className="btn btn-light"
           onClick={() => {
@@ -23,24 +43,14 @@ function Todo({
         </button>
       </div>
       <div className="col col-auto">
-        <button
-          title="Move Up"
-          type="button"
-          disabled={isFirst}
-          className="btn btn-secondary"
-          onClick={() => onMoveUpClicked(index)}
-        >
-          <FaArrowUp />
-        </button>
-      </div>
-      <div className="col col-auto">
-        <button
+        <Button
           type="button"
           className="btn btn-danger"
-          onClick={() => onDelete?.(index)}
+          onClick={onDeleteClick}
+          loading={loading}
         >
           <FaTrash />
-        </button>
+        </Button>
       </div>
     </>
   );

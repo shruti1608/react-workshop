@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import TaskEdit from "./TaskEdit";
 import TaskInput from "./TaskInput";
@@ -6,33 +6,56 @@ import Todo from "./Todo";
 import TasksList from "./TasksList";
 import Toggle from "./Toggle";
 import TodoListItem from "./TodoListItem";
-import { addNewTask, deleteTask, editTask, moveUp, sortTasks } from "./helpers";
+import { addNewTask, deleteTask, editTask } from "./helpers";
+import { fetchToDoes } from "./todoAxios";
+import LoadingPage from "./LoadingPage";
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const onTaskAdded = (taskText) => {
-    setTasks(addNewTask(tasks, taskText));
+  const [loading, setLoading] = useState(true);
+  const [fetchToDoesError, setFetchToDoesError] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+
+  useEffect(() => {
+    setLoading(true);
+    fetchToDoes(sortDirection)
+      .then((toDoes) => {
+        setTasks(toDoes);
+      })
+      .catch((err) => {
+        setFetchToDoesError(err);
+      })
+      .finally(() => setLoading(false));
+  }, [sortDirection]);
+
+  if (fetchToDoesError) {
+    throw fetchToDoesError;
+  }
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
+  const onTaskAdded = (createdTodo) => {
+    setTasks(addNewTask(tasks, createdTodo));
   };
   const onTaskDelete = (index) => {
     setTasks(deleteTask(index, tasks));
   };
-  const onTaskEdit = (newVal, index) => {
-    setTasks(editTask(tasks, index, newVal));
-  };
-  const onTaskMoveUp = (index) => {
-    if (index === 0) {
-      return;
-    }
-
-    setTasks(moveUp(tasks, index));
+  const onTaskEdit = (updatedTodo, index) => {
+    setTasks(editTask(tasks, index, updatedTodo));
   };
   const onSort = () => {
-    setTasks(sortTasks(tasks));
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
   };
 
   return (
     <div className="container mt-3">
-      <TaskInput onSortClick={onSort} onTaskAdded={onTaskAdded} />
+      <TaskInput
+        onSortClick={onSort}
+        sortDirection={sortDirection}
+        onTaskAdded={onTaskAdded}
+      />
       <TasksList>
         {tasks.map((task, index) => (
           <TodoListItem key={task.id}>
@@ -50,8 +73,6 @@ function App() {
                     task={task}
                     index={index}
                     onDelete={onTaskDelete}
-                    isFirst={index === 0}
-                    onMoveUpClicked={onTaskMoveUp}
                     onEditClick={toggle}
                   />
                 )

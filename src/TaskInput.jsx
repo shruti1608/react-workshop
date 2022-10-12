@@ -1,12 +1,28 @@
 import { useState } from "react";
-import { FaSortAlphaDown, FaPlus } from "react-icons/fa";
+import { FaSortAlphaDown, FaSortAlphaUp, FaPlus } from "react-icons/fa";
+import Button from "./Button";
+import { createTodo } from "./todoAxios";
 
-function TaskInput({ onSortClick, onTaskAdded }) {
+function TaskInput({ onSortClick, sortDirection, onTaskAdded }) {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const onAddBtnClick = () => {
-    onTaskAdded?.(input);
-    setInput("");
+  if (error) {
+    throw error;
+  }
+
+  const onAddBtnClick = async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      const createdTodo = await createTodo(input);
+      onTaskAdded?.(createdTodo);
+      setInput("");
+    } catch (err) {
+      setError(err);
+    }
+    setLoading(false);
   };
 
   return (
@@ -20,6 +36,7 @@ function TaskInput({ onSortClick, onTaskAdded }) {
         <div className="col">
           <div className="form-group">
             <input
+              disabled={loading}
               autoComplete="off"
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -32,14 +49,15 @@ function TaskInput({ onSortClick, onTaskAdded }) {
           </div>
         </div>
         <div className="col col-auto">
-          <button
+          <Button
             onClick={onAddBtnClick}
             disabled={!Boolean(input)}
             type="button"
             className="btn btn-primary"
+            loading={loading}
           >
             <FaPlus />
-          </button>
+          </Button>
         </div>
         <div className="col col-auto">
           <button
@@ -48,7 +66,7 @@ function TaskInput({ onSortClick, onTaskAdded }) {
             type="button"
             className="btn btn-primary"
           >
-            <FaSortAlphaDown />
+            {sortDirection === "asc" ? <FaSortAlphaUp /> : <FaSortAlphaDown />}
           </button>
         </div>
       </div>
