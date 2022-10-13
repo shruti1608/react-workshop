@@ -24,6 +24,23 @@ export default function Todolistitem({ isedit, setisedit }) {
     
     inputvalue = e.target.value;
     console.log("inputvalue",inputvalue)
+    axios.put(`http://localhost:3000/tasks/${id}`, {title:inputvalue}) 
+    .then(() => {console.log("titlle",inputvalue);
+      setlist(
+        list.map((item) => { 
+            if (item.id === id) {
+
+              item.title = inputvalue;
+              console.log("item.titles",item.title)
+              //setstate(item)
+              return item;
+            }
+            return item;
+
+      })    
+      )
+    });
+    
     
   }
 
@@ -34,35 +51,7 @@ export default function Todolistitem({ isedit, setisedit }) {
     const newisEdit = isedit.filter((item) => item !== id);
     setisedit(newisEdit);
 
-    axios.put(`http://localhost:3000/tasks/${id}`, {title}) 
-      .then(() => {console.log("titlle",title);
-        setlist(
-        //   list.map((item) => { 
-        //       if (item.id === id) {
-
-        //         item.title = inputvalue;
-        //         console.log("item.titles",item.title)
-        //         //setstate(item)
-        //         return item;
-        //       }
-        //       return item;
-
-        // })
-            (prevState) => {
-          const newState = prevState.map((obj) => {
-            if (obj.id === id) {
-              obj.title = inputvalue
-              console.log("input",obj.title)
-              return { ...obj, title:obj.title};
-           // return obj;
-            }
-            return obj;
-          });
-          return newState;
-        }
-        
-        )
-      });
+   
   }
 
   return (
