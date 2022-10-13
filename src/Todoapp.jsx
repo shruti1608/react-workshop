@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
+import Todoitem from "./Todoitem";
 import Todolist from "./Todolist";
-import Todolistitem from "./Todolistitem";
 import { Todocontext } from "./Todocontex";
 
 import "./Todostyle.css";
@@ -17,8 +17,8 @@ export default function Todoapp() {
       <h1 className="textStyle">MY Todos</h1>
       <div className="innerrootStyle">
         
-        <Todolist state={state} setstate={setstate} />
-        <Todolistitem isedit={isedit} setisedit={setisedit}/>
+        <Todoitem state={state} setstate={setstate} isedit={isedit} setisedit={setisedit} />
+        <Todolist isedit={isedit} setisedit={setisedit}/>
        
       </div>
     </div>
