@@ -1,18 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import { Todocontext } from "./Todocontex";
+import axios from "axios";
 
 export default function Todolist({ state, setstate ,isedit}) {
   const [list, setlist] = useContext(Todocontext);
- 
+  const data=[];
   useEffect(() => {
     console.log("in use effect");
-    fetch("http://localhost:3000/tasks")
-      .then(res => res.json())
-      .then( console.log("in useeff",list))
-      .then(body => setlist(body)) 
+
+    axios.get("http://localhost:3000/tasks")
+      //.then(res =>  console.log(res.data))
+      .then(res => setlist(res.data)) 
       .then( console.log('after useeff',list))
       .catch(e => console.error(e))  
-  },[state]);
+  },[]);
  
  
 
@@ -22,14 +23,10 @@ export default function Todolist({ state, setstate ,isedit}) {
     //   setstate("");
     // }
     const title = state;
-    fetch("http://localhost:3000/tasks", {
-      method: "POST",
-      body: JSON.stringify({ title }),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((res) => res.json())
-      .then((body) => setlist([body]))
-      .then(() => console.log('post',list))
+    axios.post("http://localhost:3000/tasks", {title})
+    
+      .then((res) => {data.push(res.data);setlist([...list,...data])})
+    //  .then((res) => console.log('post',res.data))
       .then(() => setstate(""))
   }
 

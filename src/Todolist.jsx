@@ -2,16 +2,14 @@ import { BiSave } from "react-icons/bi";
 import { AiTwotoneEdit, AiFillDelete } from "react-icons/ai";
 import { useContext } from "react";
 import { Todocontext } from "./Todocontex";
+import axios from "axios";
 
 export default function Todolistitem({ isedit, setisedit }) {
   const [list, setlist] = useContext(Todocontext);
-
+  let inputvalue = ''
   // delete task
   function handledelete(id) {
-    fetch(`http://localhost:3000/tasks/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
+    axios.delete(`http://localhost:3000/tasks/${id}`)
       .then(setlist(list.filter((item) => item.id !== id)))
       .catch((e) => console.error(e));
   }
@@ -23,53 +21,48 @@ export default function Todolistitem({ isedit, setisedit }) {
 
   // update item
   function onupdatehandler(e, title, id) {
-    // setlist(
-    //   list.map((item) => {
-    //     if (item.id === id) {
-    //       item.title = e.target.value;
-    //       //setstate(item)
-    //       return item;
-    //     }
-    //     return item;
-    //   }))
-    fetch(`http://localhost:3000/tasks/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ title }),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((res) => res.json())
-      .then(() =>
-        setlist(list.map((item) => { 
-              if (item.id === id) {
-                item.title = e.target.value;
-                //setstate(item)
-                return item;
-              }
-              return item;
-
-        })
-        //   (prevState) => {
-        //   const newState = prevState.map((obj) => {
-        //     if (obj.id === id) {
-        //       obj.title = e.target.value
-        //       console.log("input",obj.title)
-        //     //  return { ...obj, title:obj.title};
-        //     return obj;
-        //     }
-        //     return obj;
-        //   });
-        //   return newState;
-        // }
-        )
-      );
+    
+    inputvalue = e.target.value;
+    console.log("inputvalue",inputvalue)
+    
   }
 
   //click on save icon
-  function oncomplelehandler(id, itm) {
+  function oncomplelehandler(id, title) {
     // setisedit();
 
     const newisEdit = isedit.filter((item) => item !== id);
     setisedit(newisEdit);
+
+    axios.put(`http://localhost:3000/tasks/${id}`, {title}) 
+      .then(() => {console.log("titlle",title);
+        setlist(
+        //   list.map((item) => { 
+        //       if (item.id === id) {
+
+        //         item.title = inputvalue;
+        //         console.log("item.titles",item.title)
+        //         //setstate(item)
+        //         return item;
+        //       }
+        //       return item;
+
+        // })
+            (prevState) => {
+          const newState = prevState.map((obj) => {
+            if (obj.id === id) {
+              obj.title = inputvalue
+              console.log("input",obj.title)
+              return { ...obj, title:obj.title};
+           // return obj;
+            }
+            return obj;
+          });
+          return newState;
+        }
+        
+        )
+      });
   }
 
   return (
