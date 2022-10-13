@@ -1,20 +1,12 @@
 {
   "tasks": [
     {
-      "title": "pkf",
-      "id": 2
-    },
-    {
-      "title": "sdf",
+      "title": "sdk",
       "id": 8
     },
     {
       "title": "df",
       "id": 9
-    },
-    {
-      "title": "we",
-      "id": 10
     }
   ]
 }
