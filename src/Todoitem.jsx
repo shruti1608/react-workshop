@@ -17,17 +17,23 @@ export default function Todolist({ state, setstate ,isedit}) {
  
  
 
-  function onclickhandler() {
+ const onclickhandler = async() =>{
     // if (state !== "") {
     //   setlist((curr) => [...curr, state]);
     //   setstate("");
     // }
+    try{
     const title = state;
-    axios.post("http://localhost:3000/tasks", {title})
-    
-      .then((res) => {data.push(res.data);setlist([...list,...data])})
-    //  .then((res) => console.log('post',res.data))
-      .then(() => setstate(""))
+ const res =  await axios.post("http://localhost:3000/tasks", {title});
+              await data.push(res.data);
+              await setlist([...list,...data]);
+              await setstate("")
+    }
+    catch(error){
+      console.error(error)
+    }
+      // .then((res) => {data.push(res.data);setlist([...list,...data])})
+      // .then(() => setstate(""))
   }
 
   function compare(a, b) {

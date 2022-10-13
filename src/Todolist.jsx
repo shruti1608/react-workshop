@@ -6,12 +6,19 @@ import axios from "axios";
 
 export default function Todolistitem({ isedit, setisedit }) {
   const [list, setlist] = useContext(Todocontext);
-  let inputvalue = ''
+  let inputvalue = '';
+
   // delete task
-  function handledelete(id) {
-    axios.delete(`http://localhost:3000/tasks/${id}`)
-      .then(setlist(list.filter((item) => item.id !== id)))
-      .catch((e) => console.error(e));
+ const handledelete = async(id) => {
+  try{
+   await axios.delete(`http://localhost:3000/tasks/${id}`)
+   await setlist(list.filter((item) => item.id !== id))
+  }
+  catch(error){
+    console.error(error)
+  }
+      // .then(setlist(list.filter((item) => item.id !== id)))
+      // .catch((e) => console.error(e));
   }
 
   // click on edit icon
@@ -20,26 +27,41 @@ export default function Todolistitem({ isedit, setisedit }) {
   }
 
   // update item
-  function onupdatehandler(e, title, id) {
+ const onupdatehandler = async(e, title, id) => {
     
     inputvalue = e.target.value;
-    console.log("inputvalue",inputvalue)
-    axios.put(`http://localhost:3000/tasks/${id}`, {title:inputvalue}) 
-    .then(() => {console.log("titlle",inputvalue);
-      setlist(
-        list.map((item) => { 
+   // console.log("inputvalue",inputvalue)
+   try{
+  await axios.put(`http://localhost:3000/tasks/${id}`, {title:inputvalue}) 
+  await setlist(list.map((item) => { 
             if (item.id === id) {
-
               item.title = inputvalue;
               console.log("item.titles",item.title)
               //setstate(item)
               return item;
             }
             return item;
-
       })    
       )
-    });
+    }
+    catch(error){
+     console.error(error)
+    }
+    // .then(() => {console.log("titlle",inputvalue);
+    //   setlist(
+    //     list.map((item) => { 
+    //         if (item.id === id) {
+
+    //           item.title = inputvalue;
+    //           console.log("item.titles",item.title)
+    //           //setstate(item)
+    //           return item;
+    //         }
+    //         return item;
+
+    //   })    
+    //   )
+    // });
     
     
   }
@@ -49,9 +71,7 @@ export default function Todolistitem({ isedit, setisedit }) {
     // setisedit();
 
     const newisEdit = isedit.filter((item) => item !== id);
-    setisedit(newisEdit);
-
-   
+    setisedit(newisEdit); 
   }
 
   return (
