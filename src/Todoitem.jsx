@@ -8,9 +8,11 @@ export default function Todolist({ state, setstate ,isedit}) {
     console.log("in use effect");
     fetch("http://localhost:3000/tasks")
       .then(res => res.json())
+      .then( console.log("in useeff",list))
       .then(body => setlist(body)) 
+      .then( console.log('after useeff',list))
       .catch(e => console.error(e))  
-  },[state,isedit]);
+  },[state]);
  
  
 
@@ -32,6 +34,7 @@ export default function Todolist({ state, setstate ,isedit}) {
   }
 
   function compare(a, b) {
+
     const A = a.title.toUpperCase();
     const B = b.title.toUpperCase();
   

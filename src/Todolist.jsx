@@ -39,17 +39,28 @@ export default function Todolistitem({ isedit, setisedit }) {
     })
       .then((res) => res.json())
       .then(() =>
-        setlist((prevState) => {
-          const newState = prevState.map((obj) => {
-            if (obj.id === id) {
-              obj.title = e.target.value
-              console.log("input",obj.title)
-              return { ...obj, title:obj.title};
-            }
-            return obj;
-          });
-          return newState;
+        setlist(list.map((item) => { 
+              if (item.id === id) {
+                item.title = e.target.value;
+                //setstate(item)
+                return item;
+              }
+              return item;
+
         })
+        //   (prevState) => {
+        //   const newState = prevState.map((obj) => {
+        //     if (obj.id === id) {
+        //       obj.title = e.target.value
+        //       console.log("input",obj.title)
+        //     //  return { ...obj, title:obj.title};
+        //     return obj;
+        //     }
+        //     return obj;
+        //   });
+        //   return newState;
+        // }
+        )
       );
   }
 
@@ -57,7 +68,7 @@ export default function Todolistitem({ isedit, setisedit }) {
   function oncomplelehandler(id, itm) {
     // setisedit();
 
-    const newisEdit = isedit.filter((item, o) => item !== id);
+    const newisEdit = isedit.filter((item) => item !== id);
     setisedit(newisEdit);
   }
 
@@ -92,7 +103,17 @@ export default function Todolistitem({ isedit, setisedit }) {
             </div>
           </div>
         </div>
-      ))}
+        // <Todolistitem 
+        // key={itm.id} 
+        // title={itm.title}
+        // onupdatehandler={onupdatehandler}
+        // oncomplelehandler={oncomplelehandler}
+        // updateitem={updateitem}
+        // handledelete={handledelete}
+        // isedit={isedit}
+        // />
+      )
+      )}
     </div>
   );
 }

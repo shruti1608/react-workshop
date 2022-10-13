@@ -1,60 +1,40 @@
 import {useContext} from "react";
+import { AiTwotoneEdit, AiFillDelete } from "react-icons/ai";
 import { Todocontext } from "./Todocontex";
 import { BiSave } from "react-icons/bi";
 
-export default function Todolistitem({isedit,setisedit,itm}){
+export default function Todolistitem({key,title,isedit,onupdatehandler,oncomplelehandler,updateitem,handledelete}){
 
-  const [list, setlist] = useContext(Todocontext);
+  
 
-  function oncomplelehandler(id, itm) {
-    //save
-    setisedit(false);
-    // const newisEdit = isedit.filter((item, o) => item !== id);
-    // setisedit(newisEdit);
-
-    const title = itm;
-    fetch(`http://localhost:3000/tasks/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ title }),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((res) => res.json())
-      .then((body) => console.log(body));
-  }
-
-  function onupdatehandler(e, itm, id) {
-    // console.log("inside onupdatehandler",itm,"list:",list);
-    setlist(
-      list.map((item, idx) => {
-        if (idx === id) {
-          //    console.log("yes",e.target.value)
-          item = e.target.value;
-          //setstate(item)
-          return item;
-        }
-        return item;
-      })
-    );
-  }
-
+  
   return(
-    <>
-    {isedit ? (
+    <div key={key} className="listStyle">
+          <div className="innerlistStyle">
+            {isedit.includes(key) ? (
               <div className="innerlistStyle">
                 <input
-                  defaultValue={itm}
-                  //value={itm}
+                  defaultValue={title}
+                  // value={e.target.value}
                   style={{ width: 450 }}
-                  onChange={(e) => onupdatehandler(e, itm, itm.id)}
+                  onChange={(e) => onupdatehandler(e, title, key)}
                 ></input>
                 <BiSave
                   style={{ marginLeft: 10 }}
-                  onClick={() => oncomplelehandler(itm.id, itm)}
+                  onClick={() => oncomplelehandler(key, title)}
                 ></BiSave>
               </div>
             ) : (
-              <span className="listtextStyle">{itm}</span>
+              <span className="listtextStyle">{title}</span>
             )}
-    </>
-  )
-} 
+            <div>
+              <AiTwotoneEdit
+                onClick={() => updateitem(title,key, isedit)}
+                style={{ marginRight: "10" }}
+              ></AiTwotoneEdit>
+              <AiFillDelete onClick={() => handledelete(key)}></AiFillDelete>
+            </div>
+          </div>
+        </div>
+      )}
+  
