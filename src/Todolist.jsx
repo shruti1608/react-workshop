@@ -1,12 +1,13 @@
 import { BiSave } from "react-icons/bi";
 import { AiTwotoneEdit, AiFillDelete } from "react-icons/ai";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Todocontext } from "./Todocontex";
 import axios from "axios";
 
 export default function Todolistitem({ isedit, setisedit }) {
   const [list, setlist] = useContext(Todocontext);
-  let inputvalue = '';
+  const [error,seterror] = useState ()
+   let inputvalue = '';
 
   // delete task
  const handledelete = async(id) => {
@@ -14,8 +15,9 @@ export default function Todolistitem({ isedit, setisedit }) {
    await axios.delete(`http://localhost:3000/tasks/${id}`)
    await setlist(list.filter((item) => item.id !== id))
   }
-  catch(error){
-    console.error(error)
+  catch(err){
+    console.error(err)
+    seterror(err)
   }
       // .then(setlist(list.filter((item) => item.id !== id)))
       // .catch((e) => console.error(e));
@@ -73,7 +75,9 @@ export default function Todolistitem({ isedit, setisedit }) {
     const newisEdit = isedit.filter((item) => item !== id);
     setisedit(newisEdit); 
   }
-
+if(error){
+  throw error
+}
   return (
     <div>
       {console.log("list", list)}

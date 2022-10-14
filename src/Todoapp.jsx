@@ -1,8 +1,9 @@
 import React,{  useState, Suspense } from "react";
-//import Todoitem from "./Todoitem";
-//import Todolist from "./Todolist";
+// import Todoitem from "./Todoitem";
+// import Todolist from "./Todolist";
 import { Todocontext } from "./Todocontex";
-import ErrorBoundary from "./Errorboundry";
+//import ErrorBoundary from "./Errorboundry";
+import {ErrorBoundary} from 'react-error-boundary';
 
 import "./Todostyle.css";
 
@@ -17,10 +18,11 @@ export default function Todoapp() {
 
   return (
     <Todocontext.Provider value={[list,setlist]}>
+       
     <div className="rootStyle">
       <h1 className="textStyle">MY Todos</h1>
       <div className="innerrootStyle">
-      <ErrorBoundary fallback={<p>Could not fetch </p>}>
+      <ErrorBoundary fallback={<h1>Could not fetch </h1>}>
         <Suspense fallback={<p>loading...</p>}>
         <Todoitem state={state} setstate={setstate} isedit={isedit} setisedit={setisedit} />
         </Suspense>
@@ -31,6 +33,7 @@ export default function Todoapp() {
         </ErrorBoundary>
       </div>
     </div>
+   
     </Todocontext.Provider>
   );
 }
