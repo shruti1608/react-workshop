@@ -69,9 +69,9 @@ export default function Todolistitem({ isedit, setisedit }) {
   }
 
   //click on save icon
-  function oncomplelehandler(id, title) {
+  const oncomplelehandler = (id, title)  =>{
     // setisedit();
-
+   
     const newisEdit = isedit.filter((item) => item !== id);
     setisedit(newisEdit); 
   }

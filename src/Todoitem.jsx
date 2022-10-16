@@ -2,9 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { Todocontext } from "./Todocontex";
 import axios from "axios";
 
-export default function Todolist({ state, setstate ,isedit}) {
+// let fetchdata = false
+// const getdata = axios.get("http://localhost:3000/tasks")
+
+
+function Todolist({ state, setstate ,isedit}) {
   const [list, setlist] = useContext(Todocontext);
   const data=[];
+ 
+
+
   useEffect(() => {
     console.log("in use effect");
 
@@ -15,7 +22,9 @@ export default function Todolist({ state, setstate ,isedit}) {
       .catch(e => console.error(e))  
   },[]);
  
- 
+  
+  // getdata.then(res => setlist(res.data), fetchdata = true)
+  //        .catch((e) => console.error(e))
 
  const onclickhandler = async() =>{
     // if (state !== "") {
@@ -58,6 +67,12 @@ export default function Todolist({ state, setstate ,isedit}) {
   //   console.log("after sorting",sort)
   }
 
+//console.log("before promise")
+  // if(fetchdata === true){
+  //   console.log("after promise")
+  //   throw getdata
+  // }
+
   return (
     <div>
       <input
@@ -75,3 +90,5 @@ export default function Todolist({ state, setstate ,isedit}) {
     </div>
   );
 }
+
+export default Todolist;
