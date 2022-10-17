@@ -1,60 +1,51 @@
 import { useContext, useEffect, useState } from "react";
 import { Todocontext } from "./Todocontex";
 import axios from "axios";
-import {useQuery}  from 'react-query';
-import createResource from "./createResorse";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-// let fetchdata = false
-// const getdata = axios.get("http://localhost:3000/tasks")
+function Todoitem({ state, setstate }) {
+  const [, setlist] = useContext(Todocontext);
+  const queryClient = useQueryClient();
+  // const [isloding,setisloding] = useState(false)
 
-const getResorse = createResource(axios.get("http://localhost:3000/tasks"))
+  const data1 = [];
 
-function Todoitem({state,setstate}) {
-const [, setlist] = useContext(Todocontext);
-  // const [list,setlist] = useState([])
-  const [isloding,setisloding] = useState(false)
-  
-  const data1=[];
- 
-
-const {data:list} = useQuery('todo-task',() => { 
-  return axios.get("http://localhost:3000/tasks")})
-
-console.log("result.",list)
-// const {list: taskdata} = getResorse.read()
-// useEffect(() => {setlist(taskdata)},[taskdata])
+  const { data: list } = useQuery(
+    ["todo-task"],
+    () => {
+      return axios.get("http://localhost:3000/tasks");
+    },
+    { useErrorBoundary: true }
+  );
 
   // useEffect(() => {
   //   console.log("in use effect");
   //   axios.get("http://localhost:3000/tasks")
   //     //.then(res =>  console.log(res.data))
-  //     .then(res => setlist(res.data), setisloding(true)) 
+  //     .then(res => setlist(res.data), setisloding(true))
   //     .then( console.log('after useeff',list))
-  //     .catch(e => console.error(e))  
+  //     .catch(e => console.error(e))
   // },[]);
- 
-  
-  
 
- const onclickhandler = async() =>{
-    
-    try{
-    const title = state;
- const res =  await axios.post("http://localhost:3000/tasks", {title});
-              await data1.push(res.data);
-              await setlist([...list,...data1]);
-              await setstate("")
+  const onclickhandler = async () => {
+    try {
+      const title = state;
+      const res = await axios.post("http://localhost:3000/tasks", { title });
+
+      data1.push(res.data);
+      // console.log(data1)
+      queryClient.setQueryData(["todos"], { ...list, data1 }, setstate(""));
+      //  setlist([...list,...data1]);
+      //  setstate("")
+    } catch (error) {
+      console.error(error);
     }
-    catch(error){
-      console.error(error)
-    }
-  }
+  };
 
   function compare(a, b) {
-
     const A = a.title.toUpperCase();
     const B = b.title.toUpperCase();
-  
+
     let comparison = 0;
     if (A > B) {
       comparison = 1;
@@ -63,23 +54,15 @@ console.log("result.",list)
     }
     return comparison;
   }
-  
- 
+
   function sortlistitem() {
-   
-   const sort = list.sort(compare);
-   setlist([...sort])
- 
+    const sort = list.sort(compare);
+    // queryClient.setQueryData(['todos'],sort(compare))
+    setlist([...sort]);
   }
 
-//console.log("before promise")
-  // if(fetchdata === true){
-  //   console.log("after promise")
-  //   throw getdata
-  // }
-if(isloding){
-  <p>loding....</p>
-}
+  
+
   return (
     <div>
       <input
