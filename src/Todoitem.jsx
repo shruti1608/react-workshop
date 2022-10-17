@@ -1,48 +1,53 @@
 import { useContext, useEffect, useState } from "react";
 import { Todocontext } from "./Todocontex";
 import axios from "axios";
+import {useQuery}  from 'react-query';
+import createResource from "./createResorse";
 
 // let fetchdata = false
 // const getdata = axios.get("http://localhost:3000/tasks")
 
+const getResorse = createResource(axios.get("http://localhost:3000/tasks"))
 
-function Todolist({ state, setstate ,isedit}) {
-  const [list, setlist] = useContext(Todocontext);
-  const data=[];
+function Todoitem({state,setstate}) {
+const [, setlist] = useContext(Todocontext);
+  // const [list,setlist] = useState([])
+  const [isloding,setisloding] = useState(false)
+  
+  const data1=[];
  
 
+const {data:list} = useQuery('todo-task',() => { 
+  return axios.get("http://localhost:3000/tasks")})
 
-  useEffect(() => {
-    console.log("in use effect");
+console.log("result.",list)
+// const {list: taskdata} = getResorse.read()
+// useEffect(() => {setlist(taskdata)},[taskdata])
 
-    axios.get("http://localhost:3000/tasks")
-      //.then(res =>  console.log(res.data))
-      .then(res => setlist(res.data)) 
-      .then( console.log('after useeff',list))
-      .catch(e => console.error(e))  
-  },[]);
+  // useEffect(() => {
+  //   console.log("in use effect");
+  //   axios.get("http://localhost:3000/tasks")
+  //     //.then(res =>  console.log(res.data))
+  //     .then(res => setlist(res.data), setisloding(true)) 
+  //     .then( console.log('after useeff',list))
+  //     .catch(e => console.error(e))  
+  // },[]);
  
   
-  // getdata.then(res => setlist(res.data), fetchdata = true)
-  //        .catch((e) => console.error(e))
+  
 
  const onclickhandler = async() =>{
-    // if (state !== "") {
-    //   setlist((curr) => [...curr, state]);
-    //   setstate("");
-    // }
+    
     try{
     const title = state;
  const res =  await axios.post("http://localhost:3000/tasks", {title});
-              await data.push(res.data);
-              await setlist([...list,...data]);
+              await data1.push(res.data);
+              await setlist([...list,...data1]);
               await setstate("")
     }
     catch(error){
       console.error(error)
     }
-      // .then((res) => {data.push(res.data);setlist([...list,...data])})
-      // .then(() => setstate(""))
   }
 
   function compare(a, b) {
@@ -64,7 +69,7 @@ function Todolist({ state, setstate ,isedit}) {
    
    const sort = list.sort(compare);
    setlist([...sort])
-  //   console.log("after sorting",sort)
+ 
   }
 
 //console.log("before promise")
@@ -72,7 +77,9 @@ function Todolist({ state, setstate ,isedit}) {
   //   console.log("after promise")
   //   throw getdata
   // }
-
+if(isloding){
+  <p>loding....</p>
+}
   return (
     <div>
       <input
@@ -91,4 +98,4 @@ function Todolist({ state, setstate ,isedit}) {
   );
 }
 
-export default Todolist;
+export default Todoitem;

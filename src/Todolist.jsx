@@ -2,9 +2,9 @@ import { BiSave } from "react-icons/bi";
 import { AiTwotoneEdit, AiFillDelete } from "react-icons/ai";
 import { useContext, useState } from "react";
 import { Todocontext } from "./Todocontex";
-import axios from "axios";
+ import axios from "axios";
 
-export default function Todolistitem({ isedit, setisedit }) {
+export default function Todolist({ isedit, setisedit }) {
   const [list, setlist] = useContext(Todocontext);
   const [error,seterror] = useState ()
    let inputvalue = '';
@@ -19,8 +19,7 @@ export default function Todolistitem({ isedit, setisedit }) {
     console.error(err)
     seterror(err)
   }
-      // .then(setlist(list.filter((item) => item.id !== id)))
-      // .catch((e) => console.error(e));
+     
   }
 
   // click on edit icon
@@ -34,44 +33,29 @@ export default function Todolistitem({ isedit, setisedit }) {
     inputvalue = e.target.value;
    // console.log("inputvalue",inputvalue)
    try{
-  await axios.put(`http://localhost:3000/tasks/${id}`, {title:inputvalue}) 
-  await setlist(list.map((item) => { 
-            if (item.id === id) {
-              item.title = inputvalue;
-              console.log("item.titles",item.title)
-              //setstate(item)
+    await axios.put(`http://localhost:3000/tasks/${id}`, {title:inputvalue}) 
+    await setlist(list.map((item) => { 
+              if (item.id === id) {
+                //console.log("in put",inputvalue)
+                item.title = inputvalue;
+                console.log("item.titles",item.title)
+                //setstate(item)
+                return item;
+              }
               return item;
-            }
-            return item;
-      })    
-      )
-    }
-    catch(error){
-     console.error(error)
-    }
-    // .then(() => {console.log("titlle",inputvalue);
-    //   setlist(
-    //     list.map((item) => { 
-    //         if (item.id === id) {
-
-    //           item.title = inputvalue;
-    //           console.log("item.titles",item.title)
-    //           //setstate(item)
-    //           return item;
-    //         }
-    //         return item;
-
-    //   })    
-    //   )
-    // });
-    
-    
+        })    
+        )
+      }
+      catch(error){
+       console.error(error)
+      }
+  
   }
 
   //click on save icon
   const oncomplelehandler = (id, title)  =>{
-    // setisedit();
-   
+    // setisedit();     
+        
     const newisEdit = isedit.filter((item) => item !== id);
     setisedit(newisEdit); 
   }
@@ -112,11 +96,8 @@ if(error){
         // <Todolistitem 
         // key={itm.id} 
         // title={itm.title}
-        // onupdatehandler={onupdatehandler}
-        // oncomplelehandler={oncomplelehandler}
-        // updateitem={updateitem}
-        // handledelete={handledelete}
         // isedit={isedit}
+        // setisedit={setisedit}
         // />
       )
       )}

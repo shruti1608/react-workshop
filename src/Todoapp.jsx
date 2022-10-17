@@ -4,6 +4,7 @@ import React,{  useState, Suspense } from "react";
 import { Todocontext } from "./Todocontex";
 //import ErrorBoundary from "./Errorboundry";
 import {ErrorBoundary} from 'react-error-boundary';
+import {QueryClient,QueryClientProvider} from 'react-query';
 
 import "./Todostyle.css";
 
@@ -14,9 +15,11 @@ export default function Todoapp() {
   const [state, setstate] = useState("");
   const [list, setlist] = useState([]);
   const [isedit, setisedit] = useState([]);
- 
+  const [isloding,setisloding]= useState(false)
+  const queryClient = new QueryClient()
 
   return (
+    <QueryClientProvider client={queryClient}>
     <Todocontext.Provider value={[list,setlist]}>
        
     <div className="rootStyle">
@@ -24,7 +27,9 @@ export default function Todoapp() {
       <div className="innerrootStyle">
       <ErrorBoundary fallback={<h1>Could not fetch </h1>}>
         <Suspense fallback={<p>loading...</p>}>
-        <Todoitem state={state} setstate={setstate} isedit={isedit} setisedit={setisedit} />
+        <Todoitem state={state} setstate={setstate} 
+                  isedit={isedit} setisedit={setisedit} 
+                  />
         </Suspense>
         
         <Suspense fallback={<p>loading...</p>}>
@@ -35,5 +40,6 @@ export default function Todoapp() {
     </div>
    
     </Todocontext.Provider>
+    </QueryClientProvider>
   );
 }
