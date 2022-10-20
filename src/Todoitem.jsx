@@ -1,19 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { Todocontext } from "./Todocontex";
 import axios from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient,useMutation } from "@tanstack/react-query";
+import { postcall } from "./Todoaxios";
 
 function Todoitem({ state, setstate }) {
   const [, setlist] = useContext(Todocontext);
   const queryClient = useQueryClient();
+  
   // const [isloding,setisloding] = useState(false)
 
-  const data1 = [];
+  // const data1 = [];
 
   const { data: list } = useQuery(
-    ["todo-task"],
+    ["todos"],
     () => {
-      return axios.get("http://localhost:3000/tasks");
+      return axios.get("http://localhost:3000/tasks").then((res) => res.data);
     },
     { useErrorBoundary: true }
   );
@@ -26,20 +28,32 @@ function Todoitem({ state, setstate }) {
   //     .then( console.log('after useeff',list))
   //     .catch(e => console.error(e))
   // },[]);
+  const {mutate} = useMutation(postcall,{
+    onSuccess: (data,variables) => {
+      console.log(data)
+      //queryClient.setQueryData(["todos"],[...list,data.data]);
+      setstate("")
+    },
+  } )
+  const onclickhandler = () => {
+    // try {
+      // const title = state;
+      mutate(state)
 
-  const onclickhandler = async () => {
-    try {
-      const title = state;
-      const res = await axios.post("http://localhost:3000/tasks", { title });
 
-      data1.push(res.data);
+     // const res = await axios.post("http://localhost:3000/tasks", { title });
+      // queryClient.setQueryData(["todos"],[...list,res.data]);
+      // setstate("")
+
+
+
+     // data1.push(res.data);
       // console.log(data1)
-      queryClient.setQueryData(["todos"], { ...list, data1 }, setstate(""));
       //  setlist([...list,...data1]);
       //  setstate("")
-    } catch (error) {
-      console.error(error);
-    }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   function compare(a, b) {
@@ -57,8 +71,10 @@ function Todoitem({ state, setstate }) {
 
   function sortlistitem() {
     const sort = list.sort(compare);
-    // queryClient.setQueryData(['todos'],sort(compare))
-    setlist([...sort]);
+    console.log("sort",sort,list)
+    queryClient.setQueryData(['todos'],[...sort])
+   // setlist([...sort]);
+   console.log("after sorting",list)
   }
 
   
