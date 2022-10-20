@@ -3,12 +3,12 @@ import { AiTwotoneEdit, AiFillDelete } from "react-icons/ai";
 import { useContext, useState } from "react";
 import { Todocontext } from "./Todocontex";
 import axios from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 export default function Todolist({ isedit, setisedit }) {
   const queryClient = useQueryClient();
 
-  const [, setlist] = useContext(Todocontext);
+  // const [, setlist] = useContext(Todocontext);
   const [error, seterror] = useState();
   let inputvalue = "";
 
@@ -20,24 +20,62 @@ export default function Todolist({ isedit, setisedit }) {
     { useErrorBoundary: true, suspense: true }
   );
 
-  if (isLoading) {
-    return null;
-  }
+  // if (isLoading) {
+  //   return null;
+  // }
   console.log("result.", list);
 
+  const Deletelist = useMutation(
+    (id) => {
+      return axios.delete(`http://localhost:3000/tasks/${id}`);
+    },
+    {
+      onSuccess: (data, variable) => {
+        // console.log(data);
+        queryClient.setQueryData(
+          ["todos"],
+          list.filter((item) => item.id !== variable)
+        );
+      },
+    }
+  );
+
+  const Updatelist = useMutation(
+    ([inputvalue,id]) => {
+      return axios.put(`http://localhost:3000/tasks/${id}`, {
+            title: inputvalue,
+          })
+    },
+    {
+      onSuccess: (data, variable) => {
+        console.log(variable)
+        queryClient.setQueryData(
+              ["todos"],
+              list.map((item) => {
+                if (item.id === variable[1]) {
+                  item.title = variable[0];
+                  return { ...item, ...item.title };
+                }
+                return item;
+              })
+            );
+      },
+    }
+  );
   // delete task
   const handledelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/tasks/${id}`);
-      queryClient.setQueryData(
-        ["todos"],
-        list.filter((item) => item.id !== id)
-      );
-      //setlist(list.filter((item) => item.id !== id))
-    } catch (err) {
-      console.error(err);
-      seterror(err);
-    }
+    Deletelist.mutate(id);
+    // try {
+    //   await axios.delete(`http://localhost:3000/tasks/${id}`);
+    //   queryClient.setQueryData(
+    //     ["todos"],
+    //     list.filter((item) => item.id !== id)
+    //   );
+    //   //setlist(list.filter((item) => item.id !== id))
+    // } catch (err) {
+    //   console.error(err);
+    //   seterror(err);
+    // }
   };
 
   // click on edit icon
@@ -48,24 +86,25 @@ export default function Todolist({ isedit, setisedit }) {
   // update item
   const onupdatehandler = async (e, title, id) => {
     inputvalue = e.target.value;
+    Updatelist.mutate([inputvalue,id])
     // console.log("inputvalue",inputvalue)
-    try {
-      await axios.put(`http://localhost:3000/tasks/${id}`, {
-        title: inputvalue,
-      });
-      queryClient.setQueryData(
-        ["todos"],
-        list.map((item) => {
-          if (item.id === id) {
-            item.title = inputvalue;
-            return { ...item, ...item.title };
-          }
-          return item;
-        })
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   await axios.put(`http://localhost:3000/tasks/${id}`, {
+    //     title: inputvalue,
+    //   });
+    //   queryClient.setQueryData(
+    //     ["todos"],
+    //     list.map((item) => {
+    //       if (item.id === id) {
+    //         item.title = inputvalue;
+    //         return { ...item, ...item.title };
+    //       }
+    //       return item;
+    //     })
+    //   );
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   //click on save icon
